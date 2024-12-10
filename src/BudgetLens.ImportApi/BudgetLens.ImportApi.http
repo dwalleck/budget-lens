@@ -1,0 +1,6 @@
+@BudgetLens.ImportApi_HostAddress = http://localhost:5015
+
+GET {{BudgetLens.ImportApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

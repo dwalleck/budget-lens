@@ -1,0 +1,6 @@
+@BudgetLens.TransactionsApi_HostAddress = http://localhost:5188
+
+GET {{BudgetLens.TransactionsApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
