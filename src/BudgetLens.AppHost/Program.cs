@@ -1,9 +1,9 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 builder.AddProject<Projects.BudgetLens_ImportApi>("import-api")
-    .withExternalHttpEndpoints();
+    .WithExternalHttpEndpoints();
 
 builder.AddProject<Projects.BudgetLens_TransactionsApi>("transaction-api")
-    .withExternalHttpEndpoints();
+    .WithExternalHttpEndpoints();
 
 builder.Build().Run();
