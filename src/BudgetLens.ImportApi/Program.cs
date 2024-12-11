@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using CsvHelper;
 using System.Globalization;
 using BudgetLens.Core.Models.Statements;
+using BudgetLens.Core.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddTransient<ITransactionRepository, TransactionRepository>();
 builder.AddServiceDefaults();
 
 var app = builder.Build();
@@ -31,7 +33,7 @@ public static class ImportEndpoints
 
         using var reader = new StreamReader(myFile.OpenReadStream());
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        var records = csv.GetRecords<ChaseStatement>();
+        var records = csv.GetRecords<ChaseTransaction>();
 
 
     }
