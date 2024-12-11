@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
+using CsvHelper;
+using System.Globalization;
+using BudgetLens.Core.Models.Statements;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,30 +19,62 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
-var summaries = new[]
+public static class ImportEndpoints
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    public static void RegisterImportEndpoints(this WebApplication app)
+    {
+        var imports = app.MapGroup("/imports");
+    }
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    public static async Task<IResult> ImportChaseStatement([FromForm] IFormFile myFile)
+    {
 
-app.Run();
+        using var reader = new StreamReader(myFile.OpenReadStream());
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        var records = csv.GetRecords<ChaseStatement>();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+    }
 }
+
+// app.MapPost("/import/chase", async ([FromForm] IFormFile myFile) =>
+// {
+//     try
+//     {
+//         using var reader = new StreamReader(myFile.OpenReadStream());
+//         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+//         var records = csv.GetRecords<ChaseStatement>();
+
+//         foreach (var record in records)
+//         {
+//             Console.WriteLine(record);
+//         }
+//     }
+//     catch (FileNotFoundException ex)
+//     {
+//         Console.WriteLine($"File not found: {ex.Message}");
+//     }
+//     catch (Exception ex)
+//     {
+//         Console.WriteLine($"An error occurred: {ex.Message}");
+//     }
+// });
+
+// {
+//     using var reader = new StreamReader("ChaseExample.txt");
+//     using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+//     var records = csv.GetRecords<ChaseStatement>();
+
+//     foreach (var record in records)
+//     {
+//         Console.WriteLine(record);
+//     }
+// }
+//         catch (FileNotFoundException ex)
+//         {
+//             Console.WriteLine($"File not found: {ex.Message}");
+//         }
+//         catch (Exception ex)
+//         {
+//             Console.WriteLine($"An error occurred: {ex.Message}");
+//         }

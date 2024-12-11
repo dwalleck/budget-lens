@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetLens.ServiceDefaults\BudgetLens.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\BudgetLens.Core\BudgetLens.Core.csproj" />
   </ItemGroup>
 
 </Project>
